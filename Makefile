@@ -20,8 +20,13 @@ down:  ##@Application Down and clean application server
 clean_db: ##@Database Stop database and clean its data
 	docker stop postgres && docker rm postgres
 
-test:  ##@Testing Test application with gotest (be careful: tests drops all data in database from env)
-	make db && go test -v $(ROOT_FOLDER)/pkg/delivery/handlers && make clean_db
+migrations_up:
+	cd $(ROOT_FOLDER)/migrations && goose postgres "host=localhost port=5432 user=user password=password dbname=url_shortener_service sslmode=disable" up
+
+migrations_down:
+	cd $(ROOT_FOLDER)/migrations && goose postgres "host=localhost port=5432 user=user password=password dbname=url_shortener_service sslmode=disable" down
+# test:  ##@Testing Test application with gotest (be careful: tests drops all data in database from env)
+# 	make db && go test -v $(ROOT_FOLDER)/pkg/delivery/handlers && make clean_db
 
 lint:
 	golangci-lint run --issues-exit-code 0 --print-issued-lines=false --out-format code-climate:gl-code-quality-report.json,line-number $(ROOT_FOLDER)/pkg/...
