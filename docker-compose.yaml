@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: on-failure
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_HOST: ${DATABASE_HOST}
+    volumes:
+      - data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  api:
+    restart: on-failure
+    build: ./
+    container_name: api
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+
+volumes:
+  data:
