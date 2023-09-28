@@ -2,10 +2,10 @@ package models
 
 import "time"
 
-type VipLink struct {
-	SecretKey      string    `db:"secret_key"`
+type Link struct {
+	ID             uint      `db:"id"`
 	ShortSuffix    string    `db:"short_suffix"`
 	Url            string    `db:"url"`
-	ExpirationDate time.Time `db:"expiration_date"`
 	Clicks         uint      `db:"clicks"`
+	ExpirationDate time.Time `db:"expiration_date"`
 }

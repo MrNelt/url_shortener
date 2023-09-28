@@ -24,7 +24,7 @@
     }
   },
   "paths": {
-    "/make_shorter": {
+    "/make_shorter_vip": {
       "post": {
         "description": "creates short url",
         "requestBody": {
@@ -61,6 +61,58 @@
                     ],
                     "required": false,
                     "default": "HOURS"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "short_url": {
+                      "type": "string"
+                    },
+                    "secret_key": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid input parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/make_shorter": {
+      "post": {
+        "description": "creates short url",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "long_url": {
+                    "description": "url to make shorter",
+                    "type": "string",
+                    "default": "https://yandex.ru"
                   }
                 }
               }

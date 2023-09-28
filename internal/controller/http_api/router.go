@@ -12,7 +12,8 @@ func SetupRouter() http.Handler {
 		ctx.String(http.StatusOK, "Pong")
 	})
 
-	router.StaticFile("/swagger/api.json", "./api/openapi.json")
-	router.Static("/swagger-ui", "./static/swagger-ui/dist")
+	// place openapi.json
+	router.StaticFile("/swagger/api.json", "api/openapi.json")
+	router.Static("/swagger-ui", "static/swagger-ui/dist")
 	return router
 }

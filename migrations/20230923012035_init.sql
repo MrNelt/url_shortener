@@ -1,15 +1,10 @@
 -- +goose Up
 -- +goose StatementBegin
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE IF NOT EXISTS links (
-    short_suffix TEXT PRIMARY KEY,
-    link TEXT,
-    secret_key TEXT UNIQUE,
-    clicks INTEGER NOT NULL DEFAULT 0
-);
-CREATE TABLE IF NOT EXISTS vip_links (
-    short_suffix TEXT PRIMARY KEY,
-    link TEXT,
-    secret_key TEXT UNIQUE,
+    id   UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    short_suffix TEXT,
+    url TEXT,
     clicks INTEGER NOT NULL DEFAULT 0,
     expiration_date TIMESTAMP
 );
@@ -18,5 +13,5 @@ CREATE TABLE IF NOT EXISTS vip_links (
 -- +goose Down
 -- +goose StatementBegin
 DROP TABLE links;
-DROP TABLE vip_links;
+DROP EXTENSION "uuid-ossp";
 -- +goose StatementEnd
