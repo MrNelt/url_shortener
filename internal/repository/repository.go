@@ -1,4 +1,4 @@
-package storage
+package repository
 
 import (
 	"url_shortener/internal/repository/link"
@@ -15,7 +15,7 @@ type Repository struct {
 	logger logger.ILogger
 }
 
-func NewStorage(db dbConn.IDBConnector, logger logger.ILogger) *Repository {
+func NewRepository(db dbConn.IDBConnector, logger logger.ILogger) *Repository {
 	return &Repository{db: db, logger: logger}
 }
 

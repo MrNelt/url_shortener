@@ -24,81 +24,6 @@
     }
   },
   "paths": {
-    "/make_shorter_vip": {
-      "post": {
-        "description": "creates short url",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "long_url": {
-                    "description": "url to make shorter",
-                    "type": "string",
-                    "default": "https://yandex.ru"
-                  },
-                  "vip_key": {
-                    "description": "short key to be mapped to long url",
-                    "type": "string",
-                    "required": false
-                  },
-                  "ttl": {
-                    "description": "number of time-units this short url is going to be active. \nMaximum value must not be more than 48 hours\n",
-                    "type": "integer",
-                    "required": false,
-                    "default": 10
-                  },
-                  "ttl_unit": {
-                    "description": "time unit for time_to_live parameter",
-                    "type": "string",
-                    "enum": [
-                      "SECONDS",
-                      "MINUTES",
-                      "HOURS",
-                      "DAYS"
-                    ],
-                    "required": false,
-                    "default": "HOURS"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "short_url": {
-                      "type": "string"
-                    },
-                    "secret_key": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "invalid input parameters",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/make_shorter": {
       "post": {
         "description": "creates short url",
@@ -109,10 +34,32 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "long_url": {
+                  "url": {
                     "description": "url to make shorter",
                     "type": "string",
-                    "default": "https://yandex.ru"
+                    "default": "https://yandex.ru",
+                    "required": true
+                  },
+                  "short_suffix": {
+                    "description": "short key to be mapped to long url",
+                    "type": "string",
+                    "required": true
+                  },
+                  "ttl_count": {
+                    "description": "number of time-units this short url is going to be active. \nMaximum value must not be more than 48 hours\n",
+                    "type": "integer",
+                    "required": true
+                  },
+                  "ttl_unit": {
+                    "description": "time unit for time_to_live parameter",
+                    "type": "string",
+                    "enum": [
+                      "SECONDS",
+                      "MINUTES",
+                      "HOURS",
+                      "DAYS"
+                    ],
+                    "required": true
                   }
                 }
               }

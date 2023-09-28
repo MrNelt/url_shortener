@@ -2,34 +2,34 @@ package link
 
 const (
 	saveRequest = `
-		INSERT INTO links(short_suffix, link, expiration_date) 
+		INSERT INTO links(short_suffix, url, expiration_date) 
 			VALUES ($1, $2, $3)
-			RETURNING id;
+			RETURNING id::text;
 	`
 
 	selectBySuffixRequest = `
-		SELECT id, short_suffix, url, clicks, expiration_date FROM links 
-			WHERE short_suffix=$1;
+		SELECT id::text, short_suffix, url, clicks, expiration_date FROM links 
+			WHERE short_suffix=$1 AND expiration_date>=$2;
 	`
 
 	selectByLinkRequest = `
-		SELECT id, short_suffix, url, clicks, expiration_date FROM links  FROM links 
-			WHERE link=$1;
+		SELECT id::text, short_suffix, url, clicks, expiration_date FROM links
+			WHERE link=$1 AND expiration_date>=$2;
 	`
 
 	selectByIDRequest = `
-		SELECT id, short_suffix, url, clicks, expiration_date FROM links  FROM links 
-			WHERE id=$1;
+		SELECT id::text, short_suffix, url, clicks, expiration_date FROM links
+			WHERE id::text=$1;
 	`
 
 	deleteByIDRequest = `
 		DELETE FROM links 
-			WHERE id=$1;
+			WHERE id::text=$1;
 	`
 
 	incrementClicksBySuffixRequest = `
 		UPDATE links
 			SET clicks = clicks+1
-			WHERE short_suffix=$1;
+			WHERE short_suffix=$1 AND expiration_date>=$2;
 	`
 )

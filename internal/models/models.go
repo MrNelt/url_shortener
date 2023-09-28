@@ -3,7 +3,7 @@ package models
 import "time"
 
 type Link struct {
-	ID             uint      `db:"id"`
+	ID             string    `db:"id"`
 	ShortSuffix    string    `db:"short_suffix"`
 	Url            string    `db:"url"`
 	Clicks         uint      `db:"clicks"`

@@ -2,17 +2,19 @@ package httpApi
 
 import (
 	"net/http"
+	"url_shortener/internal/controller/http_api/link"
+	"url_shortener/internal/service"
+	"url_shortener/pkg/logger"
 
 	"github.com/gin-gonic/gin"
 )
 
-func SetupRouter() http.Handler {
+func SetupRouter(logger logger.ILogger, service service.IService) http.Handler {
 	router := gin.Default()
-	router.GET("ping", func(ctx *gin.Context) {
-		ctx.String(http.StatusOK, "Pong")
-	})
-
-	// place openapi.json
+	var handler link.IHandler = link.NewHandler(logger, service)
+	router.POST("/make_shorter", handler.MakeShorter)
+	router.GET("/info/:id", handler.Info)
+	router.GET("/:short_suffix", handler.Redirect)
 	router.StaticFile("/swagger/api.json", "api/openapi.json")
 	router.Static("/swagger-ui", "static/swagger-ui/dist")
 	return router
