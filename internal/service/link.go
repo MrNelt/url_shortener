@@ -3,7 +3,7 @@ package service
 import (
 	"errors"
 	"url_shortener/internal/dtos"
-	errorsApi "url_shortener/internal/errors_api"
+	errorsApi "url_shortener/internal/errors"
 	"url_shortener/internal/models"
 	"url_shortener/internal/repository/link"
 	"url_shortener/pkg/logger"

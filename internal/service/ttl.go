@@ -2,7 +2,7 @@ package service
 
 import (
 	"time"
-	errorsApi "url_shortener/internal/errors_api"
+	errorsApi "url_shortener/internal/errors"
 )
 
 func _TTLDTOToDate(TTLCount uint, TTLUnit string) (time.Time, error) {

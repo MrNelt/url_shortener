@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"url_shortener/config"
-	httpApi "url_shortener/internal/controller/http_api"
+	httpApi "url_shortener/internal/controller/http"
 	"url_shortener/internal/repository"
 	"url_shortener/internal/service"
 	"url_shortener/pkg/db/postgres"

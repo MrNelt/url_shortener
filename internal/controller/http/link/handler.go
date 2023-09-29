@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 	"url_shortener/internal/dtos"
-	errorsApi "url_shortener/internal/errors_api"
+	errorsApi "url_shortener/internal/errors"
 	"url_shortener/internal/service"
 	"url_shortener/pkg/logger"
 

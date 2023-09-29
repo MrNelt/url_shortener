@@ -3,7 +3,7 @@ package link
 import (
 	"database/sql"
 	"time"
-	errorsApi "url_shortener/internal/errors_api"
+	errorsApi "url_shortener/internal/errors"
 	"url_shortener/internal/models"
 	"url_shortener/pkg/db"
 	"url_shortener/pkg/logger"
