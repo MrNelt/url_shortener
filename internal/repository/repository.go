@@ -2,7 +2,7 @@ package repository
 
 import (
 	"url_shortener/internal/repository/link"
-	dbConn "url_shortener/pkg/db_conn"
+	"url_shortener/pkg/db"
 	"url_shortener/pkg/logger"
 )
 
@@ -11,11 +11,11 @@ type IRepository interface {
 }
 
 type Repository struct {
-	db     dbConn.IDBConnector
+	db     db.IDB
 	logger logger.ILogger
 }
 
-func NewRepository(db dbConn.IDBConnector, logger logger.ILogger) *Repository {
+func NewRepository(db db.IDB, logger logger.ILogger) *Repository {
 	return &Repository{db: db, logger: logger}
 }
 

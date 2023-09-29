@@ -8,7 +8,7 @@ import (
 	httpApi "url_shortener/internal/controller/http_api"
 	"url_shortener/internal/repository"
 	"url_shortener/internal/service"
-	"url_shortener/pkg/db_conn/postgres"
+	"url_shortener/pkg/db/postgres"
 	"url_shortener/pkg/logger/zerolog"
 
 	"github.com/heetch/confita"
@@ -25,12 +25,12 @@ func main() {
 	if err != nil {
 		logger.Fatal(fmt.Sprintf("failed to parse config: %v", err))
 	}
-	DBConnector, err := postgres.NewDBConnector(cfg.Database)
-	defer DBConnector.CloseConnect()
+	db, err := postgres.NewDB(cfg.Database)
+	defer db.CloseConnect()
 	if err != nil {
 		logger.Fatal(err.Error())
 	}
-	repo := repository.NewRepository(DBConnector, logger)
+	repo := repository.NewRepository(db, logger)
 	service := service.NewService(logger, repo.GetLinkRepository())
 	logger.Info(fmt.Sprint(cfg))
 	server := httpApi.SetupRouter(logger, service)

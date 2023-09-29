@@ -2,7 +2,7 @@ package httpApi
 
 import (
 	"net/http"
-	"url_shortener/internal/controller/http_api/link"
+	"url_shortener/internal/controller/http/link"
 	"url_shortener/internal/service"
 	"url_shortener/pkg/logger"
 

@@ -1,6 +1,6 @@
 package config
 
-import "url_shortener/pkg/db_conn/postgres"
+import "url_shortener/pkg/db/postgres"
 
 type Config struct {
 	Host     string `config:"HOST" yaml:"host"`

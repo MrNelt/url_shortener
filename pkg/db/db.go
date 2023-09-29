@@ -1,8 +1,8 @@
-package dbConn
+package db
 
 import "github.com/jmoiron/sqlx"
 
-type IDBConnector interface {
+type IDB interface {
 	GetConnect() *sqlx.DB
 	CloseConnect() error
 }
