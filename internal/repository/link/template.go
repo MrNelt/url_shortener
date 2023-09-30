@@ -9,12 +9,12 @@ const (
 
 	selectBySuffixRequest = `
 		SELECT id::text, short_suffix, url, clicks, expiration_date FROM links 
-			WHERE short_suffix=$1 AND expiration_date>=$2;
+			WHERE short_suffix=$1 AND expiration_date>=NOW();
 	`
 
 	selectByLinkRequest = `
 		SELECT id::text, short_suffix, url, clicks, expiration_date FROM links
-			WHERE link=$1 AND expiration_date>=$2;
+			WHERE link=$1 AND expiration_date>=NOW();
 	`
 
 	selectByIDRequest = `
@@ -30,6 +30,6 @@ const (
 	incrementClicksBySuffixRequest = `
 		UPDATE links
 			SET clicks = clicks+1
-			WHERE short_suffix=$1 AND expiration_date>=$2;
+			WHERE short_suffix=$1 AND expiration_date>=NOW();
 	`
 )

@@ -2,7 +2,6 @@ package link
 
 import (
 	"database/sql"
-	"time"
 	errorsApi "url_shortener/internal/errors"
 	"url_shortener/internal/models"
 	"url_shortener/pkg/db"
@@ -41,7 +40,7 @@ func (r *Repository) Save(link models.Link) (string, error) {
 
 func (r *Repository) SelectBySuffix(shortSuffix string) (models.Link, error) {
 	client := r.db.GetConnect()
-	row := client.QueryRow(selectBySuffixRequest, shortSuffix, time.Now())
+	row := client.QueryRow(selectBySuffixRequest, shortSuffix)
 	var link models.Link
 	err := row.Scan(&link.ID, &link.ShortSuffix, &link.Url, &link.Clicks, &link.ExpirationDate)
 	switch {
@@ -58,7 +57,7 @@ func (r *Repository) SelectBySuffix(shortSuffix string) (models.Link, error) {
 
 func (r *Repository) SelectByLink(longLink string) (models.Link, error) {
 	client := r.db.GetConnect()
-	row := client.QueryRow(selectByLinkRequest, longLink, time.Now())
+	row := client.QueryRow(selectByLinkRequest, longLink)
 
 	var link models.Link
 	err := row.Scan(&link.ID, &link.ShortSuffix, &link.Url, &link.Clicks, &link.ExpirationDate)
@@ -114,7 +113,7 @@ func (r *Repository) DeleteByID(ID string) error {
 
 func (r *Repository) IncrementClicksBySuffix(shortSuffix string) error {
 	client := r.db.GetConnect()
-	_, err := client.Exec(incrementClicksBySuffixRequest, shortSuffix, time.Now())
+	_, err := client.Exec(incrementClicksBySuffixRequest, shortSuffix)
 	if err != nil {
 		r.logger.Error(err.Error())
 	}
