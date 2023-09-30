@@ -2,7 +2,6 @@ package postgres
 
 import (
 	"fmt"
-	"url_shortener/pkg/logger/zerolog"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
@@ -23,8 +22,6 @@ func (c *DB) CloseConnect() error {
 func NewDB(cfg Config) (*DB, error) {
 	dsn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.Database)
-	log := zerolog.NewLogger()
-	log.Debug(dsn)
 	db, err := sqlx.Connect("postgres", dsn)
 	if err != nil {
 		return nil, err
