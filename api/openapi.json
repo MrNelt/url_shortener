@@ -6,26 +6,15 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000/"
+      "url": "http://localhost:8080/api/v1"
     }
   ],
-  "components": {
-    "schemas": {
-      "error": {
-        "type": "object",
-        "properties": {
-          "detail": {
-            "description": "error message",
-            "type": "string",
-            "required": true
-          }
-        }
-      }
-    }
-  },
   "paths": {
     "/make_shorter": {
       "post": {
+        "tags": [
+          "link"
+        ],
         "description": "creates short url",
         "requestBody": {
           "required": true,
@@ -33,22 +22,25 @@
             "application/json": {
               "schema": {
                 "type": "object",
+                "required": [
+                  "url",
+                  "short_suffix",
+                  "ttl_count",
+                  "ttl_unit"
+                ],
                 "properties": {
                   "url": {
                     "description": "url to make shorter",
                     "type": "string",
-                    "default": "https://yandex.ru",
-                    "required": true
+                    "default": "https://yandex.ru"
                   },
                   "short_suffix": {
                     "description": "short key to be mapped to long url",
-                    "type": "string",
-                    "required": true
+                    "type": "string"
                   },
                   "ttl_count": {
-                    "description": "number of time-units this short url is going to be active. \nMaximum value must not be more than 48 hours\n",
-                    "type": "integer",
-                    "required": true
+                    "description": "number of time-units this short url is going to be active. \n",
+                    "type": "integer"
                   },
                   "ttl_unit": {
                     "description": "time unit for time_to_live parameter",
@@ -58,8 +50,7 @@
                       "MINUTES",
                       "HOURS",
                       "DAYS"
-                    ],
-                    "required": true
+                    ]
                   }
                 }
               }
@@ -86,11 +77,11 @@
             }
           },
           "400": {
-            "description": "invalid input parameters",
+            "description": "user errors",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/error"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -100,7 +91,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/error"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -108,8 +99,21 @@
         }
       }
     },
-    "/info/:id": {
+    "/info/{id}": {
       "get": {
+        "tags": [
+          "link"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "description": "info for short_url",
         "responses": {
           "200": {
@@ -117,25 +121,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "short_url": {
-                      "type": "string"
-                    },
-                    "secret_key": {
-                      "type": "string"
-                    }
-                  }
+                  "$ref": "#/components/schemas/FullLinkDTO"
                 }
               }
             }
           },
           "400": {
-            "description": "invalid id",
+            "description": "user errors",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/error"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -145,10 +141,58 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/error"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "properties": {
+          "detail": {
+            "type": "string",
+            "description": "error message"
+          }
+        }
+      },
+      "FullLinkDTO": {
+        "type": "object",
+        "required": [
+          "id",
+          "short_suffix",
+          "url",
+          "clicks",
+          "expiration_date"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "uuid in database"
+          },
+          "short_suffix": {
+            "type": "string",
+            "description": "short suffix in url"
+          },
+          "url": {
+            "type": "string",
+            "description": "original url"
+          },
+          "clicks": {
+            "type": "integer",
+            "description": "count of clicks in url"
+          },
+          "expiration_date": {
+            "type": "string",
+            "description": "expiration_date"
           }
         }
       }
